@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil saya - Roddick</title>
+  <!-- Google Fonts & FontAwesome untuk ikon -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-color: #0d1117;
+      --card-bg: #161b22;
+      --border-color: #30363d;
+      --text-main: #c9d1d9;
+      --text-muted: #8b949e;
+      --accent-color: #238636;
+      --accent-hover: #2ea043;
+      --link-color: #58a6ff;
+      --star-color: #e3b341;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 40px auto;
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar / Profile Info */
+    .profile-sidebar {
+      text-align: center;
+    }
+
+    .avatar-container {
+      position: relative;
+      width: 190px;
+      height: 190px;
+      margin: 0 auto 16px auto;
+      border-radius: 50%;
+      border: 2px solid var(--border-color);
+      overflow: hidden;
+      background-color: var(--card-bg);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .avatar-container:hover {
+      transform: scale(1.03);
+    }
+
+    .avatar-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .profile-username {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .profile-bio {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .btn-follow {
+      display: block;
+      width: 100%;
+      background-color: var(--accent-color);
+      color: white;
+      text-align: center;
+      padding: 10px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: 1px solid rgba(27, 31, 35, 0.15);
+      transition: background-color 0.2s;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+
+    .btn-follow:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .profile-details {
+      list-style: none;
+      text-align: left;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .profile-details li {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      word-break: break-all;
+    }
+
+    .profile-details i {
+      width: 16px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .profile-details a {
+      color: var(--link-color);
+      text-decoration: none;
+    }
+
+    .profile-details a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main Content / Repositories & Hub */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Search Bar */
+    .search-bar {
+      width: 100%;
+      padding: 10px 14px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-bar:focus {
+      border-color: var(--link-color);
+      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .pinned-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .repo-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .repo-card:hover {
+      border-color: var(--text-muted);
+      transform: translateY(-2px);
+    }
+
+    .repo-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--link-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .repo-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .repo-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .lang-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lang-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .star-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+
+    .star-btn:hover, .star-btn.starred {
+      color: var(--star-color);
+    }
+
+    /* Modal Pop-up Detail Proyek */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(1, 4, 9, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+      padding: 24px;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.2s ease;
+    }
+
+    .modal-overlay.active .modal-box {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      color: var(--text-main);
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      color: var(--link-color);
+      margin-bottom: 12px;
+    }
+
+    .modal-body {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Kolom Kiri: Profil -->
+    <div class="profile-sidebar">
+      <div class="avatar-container" id="avatarBox" title="Klik untuk sapaan!">
+        <img src="https://avatars.githubusercontent.com/u/9919?v=4" alt="Avatar Roddick">
+      </div>
+      <h1 class="profile-name">Roddick</h1>
+      <p class="profile-username">utero27</p>
+      
+      <p class="profile-bio">
+        🚀 Web Developer & Tech Enthusiast. Suka membangun aplikasi web yang interaktif dan mempelajari hal baru seputar coding.
+      </p>
+
+      <a href="https://github.com/utero27" target="_blank" class="btn-follow" id="followBtn">Follow di GitHub</a>
+
+      <ul class="profile-details">
+        <li><i class="fa-solid fa-phone"></i> <a href="https://wa.me/6288228002886" target="_blank">0882-2800-2886</a></li>
+        <li><i class="fa-brands fa-github"></i> <a href="https://github.com/utero27" target="_blank">github.com/utero27</a></li>
+        <li><i class="fa-brands fa-instagram"></i> <a href="https://www.instagram.com/rodik_bumi/" target="_blank">@rodik_bumi</a></li>
+        <li><i class="fa-solid fa-building"></i> Indonesia</li>
+      </ul>
+    </div>
+
+    <!-- Kolom Kanan: Pinned Repositories & Search Hub -->
+    <div class="main-content">
+      <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Cari nama repositori atau proyek...">
+      
+      <div>
+        <div class="section-header">
+          <h2 class="section-title">Pinned Repositories</h2>
+        </div>
+        
+        <div class="pinned-grid" id="repoGrid">
+          
+          <!-- Repository 1 -->
+          <div class="repo-card" data-name="project-hub-web" data-desc="Halaman portofolio profil diri bergaya GitHub Dashboard yang interaktif, dilengkapi fitur pencarian, sistem star, dan modal detail proyek.">
+            <div>
+              <a href="https://github.com/utero27" target="_blank" class="repo-title">
+                <i class="fa-regular fa-bookmark"></i> project-hub-web
+              </a>
+              <p class="repo-desc">Halaman portofolio profil diri bergaya GitHub Dashboard yang interaktif.</p>
+            </div>
+            <div class="repo-meta">
+              <span class="lang-badge">
+                <span class="lang-dot" style="background-color: #e34c26;"></span> HTML/CSS
+              </span>
+              <button class="star-btn" onclick="toggleStar(event, this)">
+                <i class="fa-regular fa-star"></i> <span class="star-count">12</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Repository 2 -->
+          <div class="repo-card" data-name="task-manager-app" data-desc="Aplikasi pengelola tugas harian (To-Do List) berbasis JavaScript modern yang mendukung penyimpanan lokal dan antarmuka responsif.">
+            <div>
+              <a href="https://github.com/utero27" target="_blank" class="repo-title">
+                <i class="fa-regular fa-bookmark"></i> task-manager-app
+              </a>
+              <p class="repo-desc">Aplikasi pengelola tugas harian (To-Do List) berbasis JavaScript modern.</p>
+            </div>
+            <div class="repo-meta">
+              <span class="lang-badge">
+                <span class="lang-dot" style="background-color: #f1e05a;"></span> JavaScript
+              </span>
+              <button class="star-btn" onclick="toggleStar(event, this)">
+                <i class="fa-regular fa-star"></i> <span class="star-count">8</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Pop-up -->
+  <div class="modal-overlay" id="repoModal">
+    <div class="modal-box">
+      <button class="modal-close" id="closeModal">&times;</button>
+      <h3 class="modal-title" id="modalRepoTitle">Judul Proyek</h3>
+      <p class="modal-body" id="modalRepoDesc">Deskripsi lengkap proyek akan muncul di sini.</p>
+      <a href="https://github.com/utero27" target="_blank" class="btn-follow" style="margin-bottom:0;">Lihat Repositori di GitHub</a>
+    </div>
+  </div>
+
+  <script>
+    // 1. Fitur Pencarian / Filter Proyek Real-time
+    const searchInput = document.getElementById('searchInput');
+    const repoCards = document.querySelectorAll('.repo-card');
+
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase();
+      repoCards.forEach(card => {
+        const name = card.getAttribute('data-name').toLowerCase();
+        const desc = card.getAttribute('data-desc').toLowerCase();
+        if (name.includes(term) || desc.includes(term)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    // 2. Fitur Tombol Star Interaktif
+    function toggleStar(event, btn) {
+      event.stopPropagation(); // Mencegah modal terbuka saat tombol star diklik
+      const icon = btn.querySelector('i');
+      const countSpan = btn.querySelector('.star-count');
+      let count = parseInt(countSpan.textContent);
+
+      if (btn.classList.contains('starred')) {
+        btn.classList.remove('starred');
+        icon.classList.remove('fa-solid');
+        icon.classList.add('fa-regular');
+        countSpan.textContent = count - 1;
+      } else {
+        btn.classList.add('starred');
+        icon.classList.remove('fa-regular');
+        icon.classList.add('fa-solid');
+        countSpan.textContent = count + 1;
+      }
+    }
+
+    // 3. Fitur Modal Detail Proyek saat Kartu Diklik
+    const modal = document.getElementById('repoModal');
+    const closeModal = document.getElementById('closeModal');
+    const modalTitle = document.getElementById('modalRepoTitle');
+    const modalDesc = document.getElementById('modalRepoDesc');
+
+    repoCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const title = card.querySelector('.repo-title').textContent.trim();
+        const desc = card.getAttribute('data-desc');
+        
+        modalTitle.textContent = title;
+        modalDesc.textContent = desc;
+        modal.classList.add('active');
+      });
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+
+    // 4. Interaksi Tambahan pada Avatar
+    const avatarBox = document.getElementById('avatarBox');
+    avatarBox.addEventListener('click', () => {
+      alert("Halo! Selamat datang di GitHub Hub Profil Roddick (utero27). 🚀");
+    });
+  </script>
+
+</body>
+</html>
